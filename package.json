@@ -1,0 +1,14 @@
+{
+  "name": "nn",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/rtr.js",
+  "dependencies": {
+    "csvtojson": "^1.1.9",
+    "json2csv": "^3.11.5",
+    "lodash": "^4.17.4",
+    "neataptic": "^1.4.7"
+  },
+  "author": "Mark Zhou",
+  "license": "MIT"
+}

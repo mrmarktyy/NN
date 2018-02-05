@@ -1,0 +1,71 @@
+<html>
+  <head>
+    <title>NN</title>
+    <style>
+      * { box-sizing: border-box; }
+      main {
+        --board-width: 150px;
+        --board-height: 150px;
+        --board-color: #eee;
+      }
+      #generation {
+        display: inline-block;
+        margin:  0;
+      }
+      #app { display: flex; }
+      #output {
+        width: 100%;
+        min-height: 100px;
+        margin-top: 20px;
+      }
+      .title { margin:  0; }
+      .title p { margin: 0; }
+      .network { margin:  0 30px; }
+      .board {
+        width: var(--board-width);
+        height: var(--board-height);
+        border: 1px solid var(--board-color);
+        position: relative;
+        margin: 0 auto;
+      }
+      .cell {
+        font-size: 30px;
+        width: calc(var(--board-width) / 3);
+        height: calc(var(--board-height) / 3);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        left: 0;
+        border: 1px solid var(--board-color);
+        transition: transform 0.5s ease;
+      }
+      .cell.c1 { transform: translate3d(0, 0, 0); }
+      .cell.c2 { transform: translate3d(calc(var(--board-width) / 3), 0, 0); }
+      .cell.c3 { transform: translate3d(calc(var(--board-width) * 2 / 3), 0, 0); }
+      .cell.c4 { transform: translate3d(0, calc(var(--board-height) / 3), 0); }
+      .cell.c5 { transform: translate3d(calc(var(--board-width) / 3), calc(var(--board-height) / 3), 0); }
+      .cell.c6 { transform: translate3d(calc(var(--board-width) * 2 / 3), calc(var(--board-height) / 3), 0); }
+      .cell.c7 { transform: translate3d(0, calc(var(--board-height) * 2 / 3), 0); }
+      .cell.c8 { transform: translate3d(calc(var(--board-width) / 3), calc(var(--board-height) * 2 / 3), 0); }
+      .cell.c9 { transform: translate3d(calc(var(--board-width) * 2 / 3), calc(var(--board-height) * 2 / 3), 0); }
+    </style>
+  </head>
+  <body>
+    <main>
+      <button id="start">start</button>
+      <button id="load">load</button>
+      <button id="clear">clear</button>
+      <h4 id="generation"></h4>
+      <h5 class="title"></h5>
+      <div id="app"></div>
+      <textarea id="output"></textarea>
+    </main>
+    <script src="libs/neataptic.js"></script>
+    <script src="libs/lodash.min.js"></script>
+    <script src="libs/jquery-3.2.1.min.js"></script>
+    <script src="src/Game.js"></script>
+    <script src="src/v1.js"></script>
+  </body>
+</html>

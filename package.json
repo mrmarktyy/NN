@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "src/rtr.js",
+  "scripts": {
+  	"reports": "node src/stats.js"
+  },
   "dependencies": {
     "csvtojson": "^1.1.9",
     "json2csv": "^3.11.5",

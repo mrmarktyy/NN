@@ -9,6 +9,9 @@
     "lodash": "^4.17.4",
     "neataptic": "^1.4.7"
   },
+  "engines": {
+    "node": ">=8.9"
+  },
   "author": "Mark Zhou",
   "license": "MIT"
 }

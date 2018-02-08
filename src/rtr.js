@@ -1,19 +1,11 @@
 const neataptic = require('neataptic')
 const _ = require('lodash')
-const json2csv = require('json2csv')
-const fs = require('fs')
+
 const csv = require('./libs/csv')
+const { expand } = require('./libs/config')
+const Network = require('./Network')
 
-const Layer = neataptic.Layer
-const Network = neataptic.Network
-const Architect = neataptic.architect
-const Methods = neataptic.methods
-
-const TRAINING_RATE = 0.8
-const INPUT_SIZE = 16
-const OUTPUT_SIZE = 1
-const HIDDEN_SIZE = Math.floor((INPUT_SIZE + OUTPUT_SIZE) / 2)
-// const HIDDEN_SIZE = 16
+const TRAINING_RATE = 0.5
 
 async function getDataset () {
   const homeloans = await csv('./data/homeloans.csv')
@@ -50,36 +42,43 @@ async function getDataset () {
 
 async function main () {
   const { trainingSet, testingSet } = await getDataset()
-  const network = new Architect.Perceptron(INPUT_SIZE, HIDDEN_SIZE, OUTPUT_SIZE)
+  const networks = []
+  const varitions = {
+    hidden: [6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    cost: ['CROSS_ENTROPY', 'MSE', 'BINARY'],
+    dropout: [0, 0.2, 0.4],
+  }
+  const configs = expand(varitions)
+  configs.forEach(config => {
+    networks.push(
+      new Network({
+        id: `${config.hidden}-${config.cost}-${config.dropout}`,
+        config: Object.assign({}, {
+          input: 16,
+          output: 1,
+          log: 1000,
+          error: 0.0001,
+          iterations: 10000,
+          hidden: 8,
+          cost: 'MSE',
+          dropout: 0,
+        }, {
+          hidden: config.hidden,
+          cost: config.cost,
+          dropout: config.dropout,
+        }),
+        trainingSet,
+        testingSet,
+      })
+    )
+  })
+
+  const results = networks.map(network => {
+    network.train()
+    return network.test()
+  })
+  console.log('done', results)
   // network.nodes[network.nodes.length - 1].squash = Methods.activation.RELU
-  await network.train(trainingSet, {
-    cost: Methods.cost.MSE,
-    log: 100,
-    error: 0.0001,
-    iterations: 20000,
-  })
-
-
-  const results = testingSet.map(({input, output, id}) => {
-    const algorithm = +(network.activate(input) * 5).toFixed(1)
-    const manual = +(output * 5).toFixed(1)
-    const diff = +(algorithm - manual).toFixed(1)
-    return {
-      id,
-      algorithm,
-      manual,
-      diff,
-    }
-  })
-
-  const csv = json2csv({data: results, fields: ['id', 'algorithm', 'manual', 'diff']})
-  fs.writeFile('./output/result.csv', csv, {encoding: 'utf8'}, (err) => {
-    if (err) throw err
-    console.log('done')
-  })
-
-  console.log('Mean Diff', _.meanBy(results, ({diff}) => Math.abs(diff)))
-  console.log('Max Diff', _.maxBy(results, ({diff}) => Math.abs(diff)))
 }
 
 main()

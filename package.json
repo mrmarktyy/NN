@@ -1,9 +1,9 @@
 {
   "name": "nn",
   "version": "1.0.0",
-  "description": "",
   "main": "src/rtr.js",
   "scripts": {
+  	"test": "echo 'Done'",
   	"reports": "node src/stats.js"
   },
   "dependencies": {

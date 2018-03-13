@@ -1,0 +1,26 @@
+language: node_js
+dist: trusty
+node_js:
+- 8.9.4
+jobs:
+  include:
+  - stage: Test
+    script: npm test
+  - stage: Deploy
+    if: type IN (push)
+    script: skip
+    deploy:
+    - provider: script
+      skip_cleanup: true
+      script:
+      - echo travis_branch:$TRAVIS_BRANCH
+      on:
+        tags: false
+    - provider: script
+      skip_cleanup: true
+      script:
+      - echo travis_tag:$TRAVIS_TAG
+      - tar -zcf /tmp/nn-$TRAVIS_TAG.tar.gz *
+      - ls /tmp/
+      on:
+        tags: true

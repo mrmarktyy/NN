@@ -19,9 +19,6 @@ jobs:
     - provider: script
       skip_cleanup: true
       script:
-      - echo travis_tag:$TRAVIS_TAG,travis_build_dir:$TRAVIS_BUILD_DIR
-      - cd $TRAVIS_BUILD_DIR && ls
-      # - tar -zcf /tmp/nn-$TRAVIS_TAG.tar.gz *
-      # - du -hs /tmp/nn-$TRAVIS_TAG.tar.gz
+      - echo travis_branch:$TRAVIS_BRANCH
       on:
         tags: true

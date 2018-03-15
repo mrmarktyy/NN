@@ -21,7 +21,8 @@ jobs:
     - provider: script
       skip_cleanup: true
       script:
-      - cd $TRAVIS_BUILD_DIR && mkdir -p /tmp/nn && tar -zcf /tmp/nn/nn-$TRAVIS_TAG.tar.gz *
+      - mkdir -p /tmp/nn
+      - cd $TRAVIS_BUILD_DIR && tar -zcf /tmp/nn/nn-$TRAVIS_TAG.tar.gz *
       on:
         tags: true
     - provider: s3

@@ -18,16 +18,10 @@ jobs:
       - echo travis_branch:$TRAVIS_BRANCH
       on:
         tags: false
-  - stage: Deploy Tag
-    if: type IN (push)
-    script: skip
-    before_deploy:
-    - echo Deploy Tag before_deploy
-    deploy:
     - provider: script
       skip_cleanup: true
       script:
-      - cd $TRAVIS_BUILD_DIR && tar -zcf $TRAVIS_BUILD_DIR/nn-$TRAVIS_TAG.tar.gz *
+      - cd $TRAVIS_BUILD_DIR && tar -zcf /tmp/blaze/nn-$TRAVIS_TAG.tar.gz *
       on:
         tags: true
     - provider: s3
@@ -36,7 +30,7 @@ jobs:
       secret_access_key:
         secure: tl+QwREZOnmhQkLjBN85CeWm+W4x8RXnf392NP50Mvvt2pXeoWz4t2yCiMFzuTnouTp8lKSBaJGPnpgR3vLHVuO/MYhE62QdC8gdBLSJJv3sWEcFLmC6xQQGdiZQFOgoOIalwdqcWOLSTbHGYBjCJ7rahpclPTs8skjIDQKs/A43//oj3lEHXC67wsNv2tMVPDFunLj/oTlaq13gaT+RskWn2+sQDPjW1II9jLaXztvjAFOjioEPVbodxcqkmvzxrrA3TuFv99IKXHOi5+nfrv9fgVYzmDHMtU9AGcb0uWWwZCZye6X8Y04DjvywhkkW81KDd3uLlI2Pxmy2wm3FwBVeXX8/HqoFjRab22TcoaPtHK0puH5CM7LHi8vLrjmJuUdHEEfgJfkMjzU1ZyojTlhuI147TeQESkbJPupg4hiCenzg/ohzgQHhJBAIYZ7pFkRI3wKy7lqIFWBGS1WfbtHL2aIq1dPrtOxo30LSgQH2qgDbEombpoKrdkPu3wDr6DVihx/dS8FrR/CB/uBKfVIRfua3XNqEDb1sHjJYiV638+1ng+On3hgGdcbOElgJZKaFFtFCpe8ZuPDojyvTgjRTAOLrmWN2RlURNO3DTndBxD0jfwE6vGjD34PGnN49QdhqQaybU+dLNFnT0/gDr4/zgJghuVrz35Wmp6Jujb0=
       bucket: production-blaze-assets
-      local-dir: $TRAVIS_BUILD_DIR/nn-$TRAVIS_TAG.tar.gz
+      local-dir: /tmp/blaze
       upload-dir: deploy
       on:
         tags: true

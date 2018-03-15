@@ -35,7 +35,7 @@ jobs:
       on:
         tags: true
     after_deploy:
-    - if [ -f /tmp/nn-$TRAVIS_TAG.tar.gz ]; then
+    - if [ -f /tmp/nn/nn-$TRAVIS_TAG.tar.gz ]; then
         echo "DONE";
       else
         echo "ERROR";
